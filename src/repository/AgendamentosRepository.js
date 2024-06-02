@@ -1,20 +1,20 @@
 import con from './connection.js'
 
-export async function fazerAgendamentos(tb_agendamentos) {
+export async function fazerAgendamentos(agendamentos) {
     let comando =`
-    INSERT INTO tb_agendamentos 
+    INSERT INTO agendamentos 
     (
         data, 
-        paciente_id, 
-        doutor_id, 
+        pacientes_nome, 
+        medicos_nome, 
         motivo
     )
     VALUES (?, ?, ?, ?); 
     `
      let res= await con.query(comando,[
         agendamentos.data, 
-        agendamentos.paciente_id, 
-        agendamentos.doutor_id, 
+        agendamentos.pacientes_nome, 
+        agendamentos.medicos_nome, 
         agendamentos.motivo])
      let info = res[0];
 
@@ -22,18 +22,34 @@ export async function fazerAgendamentos(tb_agendamentos) {
      return agendamentos;
 }
 
-export async function consultarAgendamentos(paciente_id){
+export async function consultarAgendamentos(){
     let comando = `
     SELECT id as id,
         data as data, 
-        paciente_id as paciente, 
-        doutor_id as doutor, 
+        pacientes_nome as paciente, 
+        medicos_nome as medico, 
         motivo as motivo
-    FROM tb_agendamentos
-    WHERE paciente_id like ?
+    FROM agendamentos
     `
 
-    let res = await con.query(comando, [ '%' + paciente_id + '%']);
+    let res = await con.query(comando,);
+    let linhas = res[0];
+
+    return linhas;
+} 
+
+export async function consultarAgendamento(pacientes_nome){
+    let comando = `
+    SELECT id as id,
+        data as data, 
+        pacientes_nome as paciente, 
+        medicos_nome as medico, 
+        motivo as motivo
+    FROM agendamentos
+    WHERE pacientes_nome like ?
+    `
+
+    let res = await con.query(comando,['%' + pacientes_nome + '%']);
     let linhas = res[0];
 
     return linhas;
@@ -44,7 +60,7 @@ export async function consultarAgendamentos(paciente_id){
 export async function removerAgendamentos(id){
 
     let comando = `
-    DELETE FROM tb_agendamentos
+    DELETE FROM agendamentos
     WHERE id = ?
     `
     let res= await con.query(comando, [id]);
@@ -56,18 +72,18 @@ export async function removerAgendamentos(id){
 
 export async function alterarAgendamentos(id, agendamentos) {
     let comando = `
-    UPDATE tb_agendamentos
+    UPDATE agendamentos
         SET data = ?,
-        paciente_id = ?,
-        doutor_id = ?,
+        pacientes_nome = ?,
+        medicos_nome = ?,
         motivo = ?
     WHERE id = ?
     `;
 
     let res = await con.query(comando, [
         agendamentos.data, 
-        agendamentos.paciente_id, 
-        agendamentos.doutor_id, 
+        agendamentos.pacientes_nome, 
+        agendamentos.medicos_nome, 
         agendamentos.motivo,
         id
     ]);

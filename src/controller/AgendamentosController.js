@@ -1,10 +1,10 @@
-import { fazerAgendamentos, consultarAgendamentos, alterarAgendamentos, removerAgendamentos} from "../repository/PacienteRepository.js";
+import { fazerAgendamentos, consultarAgendamentos, alterarAgendamentos, removerAgendamentos} from "../repository/AgendamentosRepository.js";
 
 
 import { Router } from "express"
 let endpoints = Router();
 
-endpoints.post('/novoagendamento/', async (req, resp) => {
+endpoints.post('/agendamentos/', async (req, resp) => {
     try{
         let agendamentos = req.body;
 
@@ -22,6 +22,21 @@ endpoints.post('/novoagendamento/', async (req, resp) => {
 endpoints.get('/agendamentos/', async (req, resp) => {
     try{
         let paciente = req.query.paciente;
+
+        let r = await consultarAgendamentos(paciente);
+
+        resp.send(r);
+
+    }
+    catch(err){
+        resp.status(400).send({erro: err.message})
+    }
+
+})
+
+endpoints.get('/agendamentos/:paciente_nome', async (req, resp) => {
+    try{
+        let paciente = req.query.pacientes_nome;
 
         let r = await consultarAgendamentos(paciente);
 
