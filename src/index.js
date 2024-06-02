@@ -2,7 +2,7 @@ import 'dotenv/config.js'
 import express from 'express'
 import cors from 'cors'
 
-import PacienteController from './controller/PacienteController.js' 
+import PacienteController from './controller/PacienteController.js'; 
 
 let servidor = express();
 servidor.use( cors());

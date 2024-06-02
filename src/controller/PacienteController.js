@@ -1,4 +1,5 @@
-import { fazerAgentadamentos, consultarAgendamentos, alterarAgendamentos, removerAgendamentos} from "./repository/PacienteRepository.js"
+import { fazerAgendamentos, consultarAgendamentos, alterarAgendamentos, removerAgendamentos} from "../repository/PacienteRepository.js";
+
 
 import { Router } from "express"
 let endpoints = Router();
@@ -7,7 +8,7 @@ endpoints.post('/novoagendamento/', async (req, resp) => {
     try{
         let agendamentos = req.body;
 
-        let r = await fazerAgentadamentos(agendamentos);
+        let r = await fazerAgendamentos(agendamentos);
 
         resp.send(r);
 
