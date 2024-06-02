@@ -4,10 +4,10 @@ export async function cadastrarPacientes(pacientes) {
     let comando =`
     INSERT INTO pacientes
     (
-        "nome",
-        "email", 
-        "data_nascimento",
-        "cpf"
+        nome,
+        email, 
+        data_nascimento,
+        cpf
     )
     VALUES (?, ?, ?, ?); 
     `
@@ -60,15 +60,16 @@ export async function alterarPacientes(id, pacientes) {
         SET nome = ?,
         email = ?,
         data_nascimento = ?,
-        cpf = ?   
+        cpf = ?  
     WHERE id = ?
     `;
 
-    let res = await con.query(comando, [
+    let res = await con.query(comando,  [
         pacientes.nome,
         pacientes.email,
         pacientes.data_nascimento,
-        pacientes.cpf  
+        pacientes.cpf,  
+        id
     ]);
 
     let info = res[0];
