@@ -1,6 +1,6 @@
 import con from './connection.js'
 
-export async function fazerAgendamento(tb_agendamentos) {
+export async function fazerAgendamentos(tb_agendamentos) {
     let comando =`
     INSERT INTO tb_agendamentos 
     (
