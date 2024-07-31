@@ -4,12 +4,12 @@ require 'C:\wamp64\www\GEOVendas\connection.php';
 function atualizarEstoque(PDO $pdo, string $jsonData) {
     $produtos = json_decode($jsonData, true);
 
-    // Prepare as queries
+    
     $selectQuery = 'SELECT id FROM estoque WHERE produto = :produto AND cor = :cor AND tamanho = :tamanho AND deposito = :deposito AND data_disponibilidade = :data_disponibilidade';
     $updateQuery = 'UPDATE estoque SET quantidade = :quantidade WHERE id = :id';
     $insertQuery = 'INSERT INTO estoque (produto, cor, tamanho, deposito, data_disponibilidade, quantidade) VALUES (:produto, :cor, :tamanho, :deposito, :data_disponibilidade, :quantidade)';
 
-    // Prepare statements
+    
     $selectStmt = $pdo->prepare($selectQuery);
     $updateStmt = $pdo->prepare($updateQuery);
     $insertStmt = $pdo->prepare($insertQuery);
@@ -18,7 +18,7 @@ function atualizarEstoque(PDO $pdo, string $jsonData) {
         $pdo->beginTransaction();
 
         foreach ($produtos as $produto) {
-            // Bind parameters for select query
+            
             $selectStmt->execute([
                 ':produto' => $produto['produto'],
                 ':cor' => $produto['cor'],
@@ -30,13 +30,13 @@ function atualizarEstoque(PDO $pdo, string $jsonData) {
             $row = $selectStmt->fetch(PDO::FETCH_ASSOC);
 
             if ($row) {
-                // Bind parameters for update query
+                
                 $updateStmt->execute([
                     ':quantidade' => $produto['quantidade'],
                     ':id' => $row['id'],
                 ]);
             } else {
-                // Bind parameters for insert query
+                
                 $insertStmt->execute([
                     ':produto' => $produto['produto'],
                     ':cor' => $produto['cor'],
@@ -55,7 +55,7 @@ function atualizarEstoque(PDO $pdo, string $jsonData) {
     }
 }
 
-// Exemplo de uso
+
 $jsonData = '[
     {
         "produto": "10.01.0419",
@@ -99,5 +99,5 @@ $jsonData = '[
     }
 ]';
 
-//atualizarEstoque($pdo, $jsonData);
+atualizarEstoque($pdo, $jsonData);
 ?>
